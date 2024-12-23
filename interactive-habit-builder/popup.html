@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Habit Builder</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+    }
+    .stats {
+      margin: 10px 0;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress {
+      height: 100%;
+      background-color: #4CAF50;
+      transition: width 0.3s ease;
+    }
+    .points {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <h2>Your Habit Builder</h2>
+  <div class="points">
+    <span id="pointsDisplay">0</span> points
+  </div>
+  <div class="stats">
+    <h3>Today's Progress</h3>
+    <div class="progress-bar">
+      <div id="progressBar" class="progress" style="width: 0%"></div>
+    </div>
+    <p>Time spent on social media: <span id="timeSpent">0</span> minutes</p>
+    <p>Daily goal: <span id="goalTime">60</span> minutes</p>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Icons</title>
+</head>
+<body>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <script>
+        const sizes = [16, 48, 128];
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        sizes.forEach(size => {
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Draw background
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.6}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('H', size/2, size/2);
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    </script>
+</body>
+</html> 
