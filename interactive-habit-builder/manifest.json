@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Interactive Habit Builder",
-  "version": "1.0",
-  "description": "Track and improve your browsing habits with gamified rewards",
+  "version": "2.0",
+  "description": "Track and improve your browsing habits with gamified rewards, streaks, and detailed analytics",
   "permissions": [
     "storage",
     "tabs",
     "webNavigation",
-    "alarms"
+    "alarms",
+    "notifications"
   ],
   "background": {
     "service_worker": "background.js"
@@ -24,5 +25,8 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ]
 } 

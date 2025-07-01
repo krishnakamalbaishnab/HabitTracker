@@ -1,49 +1,456 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Habit Builder</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      width: 300px;
-      padding: 15px;
-      font-family: Arial, sans-serif;
+      width: 400px;
+      height: 600px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      overflow-x: hidden;
     }
-    .stats {
-      margin: 10px 0;
-    }
-    .progress-bar {
-      width: 100%;
-      height: 20px;
-      background-color: #f0f0f0;
-      border-radius: 10px;
+
+    .container {
+      background: white;
+      margin: 10px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       overflow: hidden;
+      height: calc(100% - 20px);
     }
-    .progress {
-      height: 100%;
-      background-color: #4CAF50;
-      transition: width 0.3s ease;
+
+    .header {
+      background: linear-gradient(90deg, #4CAF50, #45a049);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
     }
-    .points {
+
+    .header h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .level-badge {
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 5px 15px;
+      font-size: 12px;
+      display: inline-block;
+    }
+
+    .points-display {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      text-align: center;
+    }
+
+    .points-number {
       font-size: 24px;
       font-weight: bold;
+    }
+
+    .points-label {
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    .tabs {
+      display: flex;
+      background: #f5f5f5;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px 8px;
       text-align: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .tab.active {
+      background: white;
       color: #4CAF50;
+      border-bottom: 2px solid #4CAF50;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 15px;
+      height: calc(100% - 160px);
+      overflow-y: auto;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .stat-card {
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 4px solid #4CAF50;
+    }
+
+    .stat-card h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #4CAF50;
+    }
+
+    .progress-container {
+      margin: 10px 0;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4CAF50, #81C784);
+      transition: width 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .progress.warning {
+      background: linear-gradient(90deg, #FF9800, #FFB74D);
+    }
+
+    .progress.danger {
+      background: linear-gradient(90deg, #f44336, #EF5350);
+    }
+
+    .progress-text {
+      font-size: 12px;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .streak-display {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+      color: white;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .streak-number {
+      font-size: 36px;
+      font-weight: bold;
+      display: block;
+    }
+
+    .streak-label {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .achievement-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .achievement {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .achievement-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .settings-group {
+      margin-bottom: 20px;
+    }
+
+    .settings-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .settings-group input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .settings-group input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      margin: 5px 5px 5px 0;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #45a049;
+    }
+
+    .btn.danger {
+      background: #f44336;
+    }
+
+    .btn.danger:hover {
+      background: #da190b;
+    }
+
+    .btn.secondary {
+      background: #6c757d;
+    }
+
+    .btn.secondary:hover {
+      background: #5a6268;
+    }
+
+    .data-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .category-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .category-card {
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
+
+    .category-card.social {
+      border-left: 4px solid #3b5998;
+    }
+
+    .category-card.entertainment {
+      border-left: 4px solid #ff6b6b;
+    }
+
+    .category-card.news {
+      border-left: 4px solid #4ecdc4;
+    }
+
+    .category-time {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .category-label {
+      font-size: 11px;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    .summary-section {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .summary-title {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .weekly-chart {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .day-bar {
+      height: 40px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      position: relative;
+      display: flex;
+      align-items: end;
+    }
+
+    .day-progress {
+      width: 100%;
+      background: #4CAF50;
+      border-radius: 3px;
+      min-height: 2px;
+    }
+
+    .day-label {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <h2>Your Habit Builder</h2>
-  <div class="points">
-    <span id="pointsDisplay">0</span> points
-  </div>
-  <div class="stats">
-    <h3>Today's Progress</h3>
-    <div class="progress-bar">
-      <div id="progressBar" class="progress" style="width: 0%"></div>
+  <div class="container">
+    <div class="header">
+      <h1>Habit Builder</h1>
+      <div class="level-badge">Level <span id="levelDisplay">1</span></div>
+      <div class="points-display">
+        <div class="points-number" id="pointsDisplay">0</div>
+        <div class="points-label">POINTS</div>
+      </div>
     </div>
-    <p>Time spent on social media: <span id="timeSpent">0</span> minutes</p>
-    <p>Daily goal: <span id="goalTime">60</span> minutes</p>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('overview')">Overview</button>
+      <button class="tab" onclick="switchTab('progress')">Progress</button>
+      <button class="tab" onclick="switchTab('achievements')">Rewards</button>
+      <button class="tab" onclick="switchTab('settings')">Settings</button>
+    </div>
+
+    <div id="overview" class="tab-content active">
+      <div class="summary-section">
+        <div class="summary-title">Today's Summary</div>
+        <div class="category-stats">
+          <div class="category-card social">
+            <div class="category-time" id="socialTime">0m</div>
+            <div class="category-label">Social Media</div>
+          </div>
+          <div class="category-card entertainment">
+            <div class="category-time" id="entertainmentTime">0m</div>
+            <div class="category-label">Entertainment</div>
+          </div>
+          <div class="category-card news">
+            <div class="category-time" id="newsTime">0m</div>
+            <div class="category-label">News</div>
+          </div>
+          <div class="category-card">
+            <div class="category-time" id="totalTime">0m</div>
+            <div class="category-label">Total Tracked</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="streak-display">
+        <span class="streak-number" id="streakDisplay">0</span>
+        <span class="streak-label">DAY STREAK</span>
+      </div>
+
+      <div class="stat-card">
+        <h3>Goals Progress</h3>
+        <div id="goalsProgress"></div>
+      </div>
+    </div>
+
+    <div id="progress" class="tab-content">
+      <div class="summary-section">
+        <div class="summary-title">Weekly Overview</div>
+        <div class="weekly-chart" id="weeklyChart"></div>
+      </div>
+
+      <div class="stat-card">
+        <h3>Detailed Statistics</h3>
+        <div id="detailedStats"></div>
+      </div>
+    </div>
+
+    <div id="achievements" class="tab-content">
+      <div class="stat-card">
+        <h3>Your Achievements</h3>
+        <div class="achievement-list" id="achievementsList">
+          <div style="text-align: center; color: #666; padding: 20px;">
+            Complete goals to unlock achievements!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="settings" class="tab-content">
+      <div class="settings-group">
+        <label>Daily Goals (minutes)</label>
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 12px;">Social Media:</label>
+          <input type="number" id="socialGoal" min="1" max="480" value="60">
+        </div>
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 12px;">Entertainment:</label>
+          <input type="number" id="entertainmentGoal" min="1" max="480" value="120">
+        </div>
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 12px;">News:</label>
+          <input type="number" id="newsGoal" min="1" max="480" value="30">
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <label>
+          <input type="checkbox" id="notificationsEnabled" checked>
+          Enable notifications
+        </label>
+      </div>
+
+      <div class="settings-group">
+        <label>Data Management</label>
+        <div class="data-actions">
+          <button class="btn" onclick="saveSettings()">Save Settings</button>
+          <button class="btn secondary" onclick="exportData()">Export Data</button>
+          <button class="btn secondary" onclick="importData()">Import Data</button>
+          <button class="btn danger" onclick="resetData()">Reset All Data</button>
+        </div>
+      </div>
+    </div>
   </div>
+
   <script src="popup.js"></script>
 </body>
 </html> 
