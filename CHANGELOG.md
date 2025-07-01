@@ -5,7 +5,7 @@ All notable changes to the Interactive Habit Builder project will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2024-12-19
+## [2.0.0] - 2025-07-01
 
 ### Added
 - 🎨 **Complete UI Overhaul**: Beautiful new tabbed interface with modern design
@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Memory Leaks**: Better cleanup and resource management
 - **Edge Cases**: Handling of short sessions and invalid domains
 
-## [1.0.0] - 2024-XX-XX
+## [1.0.0] - 2024-12-19
 
 ### Added
 - ⏱️ **Basic Time Tracking**: Track time spent on social media sites
